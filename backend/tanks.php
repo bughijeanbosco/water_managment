@@ -3,39 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanks available now if you can't found any tank make sure it is working</title>
+    <title>Tanks Available Now</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #a2c2e0, #f0f0f0);
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            animation: backgroundShift 15s ease infinite;
         }
         .container {
-            width: 80%;
+            width: 90%;
             max-width: 800px;
             background-color: #fff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 2s ease-in;
         }
         h2 {
             margin-bottom: 20px;
-            color: #333;
+            color: #f3f;
+            animation: pulse 2s infinite;
         }
         .back-link {
             display: inline-block;
             margin-bottom: 20px;
             text-decoration: none;
             color: #007BFF;
-            transition: color 0.3s;
+            font-size: 18px;
+            transition: color 0.3s, transform 0.3s;
         }
         .back-link:hover {
             color: #0056b3;
+            transform: scale(1.05);
         }
         .search-container {
             margin-bottom: 20px;
@@ -45,11 +51,17 @@
             padding: 10px;
             font-size: 16px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+        }
+        .search-container input:focus {
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
         th, td {
             padding: 12px;
@@ -59,15 +71,33 @@
         th {
             background-color: #f2f2f2;
         }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
         tr:hover {
             background-color: #f1f1f1;
+        }
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <a href="home2.html" class="back-link">Go to Home</a>
-        <h2>Tanks available now if you can't found any tank make sure it is working</h2>
+        <h2>Tanks Available Now</h2>
+        <p>If you can't find any tank, make sure it is working.</p>
         <div class="search-container">
             <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for locations..">
         </div>

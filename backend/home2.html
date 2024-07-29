@@ -3,15 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Water Tank Level Detection System Using machine Learning for Efficient Resource Management</title>
+    <title>Smart Water Tank Level Detection System Using Machine Learning for Efficient Resource Management</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Your CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        nav ul li {
+            margin: 0 10px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        nav ul li.right {
+            margin-left: auto;
+        }
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            display: flex;
+            justify-content: center;
+        }
+        footer ul li {
+            margin: 0 10px;
+        }
+        footer ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .content {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            margin: 20px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h2>Smart Water Tank Level Detection System Using machine Learning for Efficient Resource Management</h2>
+        <h2>Smart Water Tank Level Detection System Using Machine Learning for Efficient Resource Management</h2>
         <nav>
             <ul>
                 <li><a href="dashboard.php">Dashboard</a></li>
@@ -23,22 +86,24 @@
         </nav>
     </header>
 
+    <div class="content">
+        <!-- Page content goes here -->
+    </div>
+
     <footer>
         <p>&copy; 2024 SmartWaterManagement_with_machine_Learning</p>
         <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms-of-service.html">Terms of Service</a></li>
         </ul>
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const logoutLink = document.getElementById('logoutLink');
-            const button = document.querySelector('button');
 
             logoutLink.addEventListener('click', function() {
-                alert('loging out...');
+                alert('Logging out...');
                 // Add your "get started" logic here
-                // Example: Redirect to a specific page or perform an action
                 window.location.href = 'index.html'; // Replace with your actual starting action
             });
         });

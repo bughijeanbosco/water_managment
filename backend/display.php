@@ -57,18 +57,28 @@ $result = $conn->query($sql);
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #dce35b, #45b649);
+            background-size: 400% 400%;
+            animation: backgroundShift 10s ease infinite;
         }
         .container {
             max-width: 1200px;
+            width: 100%;
             margin: auto;
             padding: 20px;
             background: #fff;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
         h1, h2 {
-            color: #333;
+            color: #f3f;
+            text-align: center;
+            animation: pulse 2s infinite;
         }
         table {
             width: 100%;
@@ -111,6 +121,7 @@ $result = $conn->query($sql);
             border-radius: 5px;
             cursor: pointer;
             margin-right: 5px;
+            animation: float 2s ease-in-out infinite;
         }
         .btn-danger {
             background-color: #DC3545;
@@ -121,14 +132,31 @@ $result = $conn->query($sql);
         .btn-secondary:hover {
             background-color: #5a6268;
         }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-    <h1>All Data Available in All Tanks</h1>
-    <h2>Monitor and Manage Your Water Tanks Efficiently</h2>
+        <h1>All Data Available in All Tanks</h1>
+        <h2>Monitor and Manage Your Water Tanks Efficiently</h2>
 
-        <a href="home2.html" class="btn btn-secondary">Back to Home</a>
+        <div style="text-align: center;">
+            <a href="home2.html" class="btn btn-secondary">Back to Home</a>
+        </div>
 
         <!-- Update Form -->
         <?php if (isset($_GET['edit_id'])): ?>

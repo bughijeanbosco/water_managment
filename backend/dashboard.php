@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Display with CRUD Operations and Chart</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            background: linear-gradient(45deg, #f4f4f4, #e0e0e0, #f4f4f4);
+            background-size: 400% 400%;
+            animation: backgroundShift 10s ease infinite;
         }
         .container {
             max-width: 1000px;
@@ -20,8 +25,10 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-top: 30px;
         }
-        h2 {
-            color: #333;
+        h1 {
+            color: #f0f;
+            text-align: center;
+            animation: pulse 2s infinite;
         }
         table {
             width: 100%;
@@ -48,10 +55,12 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
+            animation: float 2s ease-in-out infinite;
         }
         .btn:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
         }
         .btn-delete {
             background-color: #f44336;
@@ -66,6 +75,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-top: 20px;
+            animation: fadeIn 1s ease-in-out;
         }
         #updateForm input[type="text"],
         #updateForm input[type="number"],
@@ -83,7 +93,8 @@
             border-radius: 4px;
             cursor: pointer;
             margin-top: 10px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
+            animation: float 2s ease-in-out infinite;
         }
         #updateForm input[type="submit"] {
             background-color: #4CAF50;
@@ -95,25 +106,30 @@
         }
         #updateForm input[type="submit"]:hover {
             background-color: #45a049;
+            transform: scale(1.05);
         }
         #updateForm button:hover {
             background-color: #e60000;
+            transform: scale(1.05);
         }
         .back-link {
             display: inline-block;
             margin-bottom: 20px;
             text-decoration: none;
             color: #007BFF;
-            transition: color 0.3s;
+            transition: color 0.3s, transform 0.3s;
+            animation: float 2s ease-in-out infinite;
         }
         .back-link:hover {
             color: #0056b3;
+            transform: scale(1.05);
         }
         .message {
             padding: 10px;
             margin-bottom: 20px;
             border-radius: 4px;
             font-weight: bold;
+            animation: fadeIn 1s ease-in-out;
         }
         .message.success {
             background-color: #d4edda;
@@ -123,13 +139,32 @@
             background-color: #f8d7da;
             color: #721c24;
         }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
-        <h2>Tanks available now if you can't find any tank make sure it is working</h2>
-        <h2>Here is each tank with its last entry data as the level of water in your tanks</h2>
+        <h1>Tanks available now! if you can't find any tank make sure it is working</h1>
+        <h1>Here is each tank with its last entry data as the level of water in your tanks</h1>
         <a href="home2.html" class="back-link">Back to Home</a>
 
         <?php
@@ -206,12 +241,11 @@
                 echo "<td>" . $row["water_level"] . "</td>";
                 echo "<td>" . $row["reading_time"] . "</td>";
                 echo "<td>";
-                echo '<a href="?action=delete&id=' . $row["id"] . '" class="btn btn-delete">Delete</a>';
-                echo ' <a href="#" onclick="showUpdateForm(' . $row["id"] . ', \'' . $row["location"] . '\', ' . $row["water_level"] . ', \'' . $row["reading_time"] . '\')" class="btn btn-update">Update</a>';
+                echo "<button class='btn btn-update' onclick=\"showUpdateForm('".$row["id"]."', '".$row["location"]."', '".$row["water_level"]."', '".$row["reading_time"]."')\">Update</button> ";
+                echo "<a href='dashboard.php?action=delete&id=".$row["id"]."' class='btn btn-delete' onclick=\"return confirm('Are you sure you want to delete this record?')\">Delete</a>";
                 echo "</td>";
                 echo "</tr>";
 
-                // Collect data for Chart.js
                 $locations[] = $row["location"];
                 $water_levels[] = $row["water_level"];
                 $reading_times[] = $row["reading_time"];
