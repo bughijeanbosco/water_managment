@@ -1,150 +1,203 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Display with CRUD Operations</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .btn {
-            padding: 6px 10px;
-            text-decoration: none;
-            background-color: #f0f0f0;
-            color: #333;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .btn-delete {
-            background-color: #f44336;
-            color: white;
-        }
-        .btn-update {
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-<form>
-<h2>Data from smartwatermanagement2 Table</h2>
-<h2><a href="index.html">BackToIndex</a></h2></form>
 <?php
-
-// Database connection parameters
+// Database configuration
 $servername = "localhost";
 $username = "root"; // Replace with your MySQL username
-$password = ""; // Replace with your MySQL password
-$dbname = "smartwatermanagement2"; // Replace with your database name
+$password = "";     // Replace with your MySQL password
+$database = "smartwatermanagement2"; // Replace with your database name
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $database);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Handle Delete Request
-if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $sql_delete = "DELETE FROM water_level WHERE tank_id = $id";
-    if ($conn->query($sql_delete) === TRUE) {
-        echo "<p>Record deleted successfully.</p>";
-    } else {
-        echo "Error deleting record: " . $conn->error;
-    }
+// Handle delete action
+if (isset($_GET['delete_id'])) {
+    $delete_id = intval($_GET['delete_id']);
+    $stmt = $conn->prepare("DELETE FROM water_level WHERE id = ?");
+    $stmt->bind_param("i", $delete_id);
+    $stmt->execute();
+    $stmt->close();
+    header("Location: ".$_SERVER['PHP_SELF']); // Redirect to avoid resubmission
+    exit();
 }
 
-// Handle Update Request
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
-    $id = $_POST['id'];
-    $location = $_POST['location'];
-    $water_level = $_POST['water_level'];
-    $reading_time = $_POST['reading_time'];
+// Handle update action
+if (isset($_POST['update'])) {
+    $id = intval($_POST['id']);
+    $tank_id = $conn->real_escape_string($_POST['tank_id']);
+    $location = $conn->real_escape_string($_POST['location']);
+    $water_level = intval($_POST['water_level']);
+    $reading_time = $conn->real_escape_string($_POST['reading_time']);
 
-    $sql_update = "UPDATE water_level SET location='$location', water_level=$water_level, reading_time='$reading_time' WHERE tank_id=$id";
-    if ($conn->query($sql_update) === TRUE) {
-        echo "<p>Record updated successfully.</p>";
-    } else {
-        echo "Error updating record: " . $conn->error;
-    }
+    $stmt = $conn->prepare("UPDATE water_level SET tank_id = ?, location = ?, water_level = ?, reading_time = ? WHERE id = ?");
+    $stmt->bind_param("ssisi", $tank_id, $location, $water_level, $reading_time, $id);
+    $stmt->execute();
+    $stmt->close();
+    header("Location: ".$_SERVER['PHP_SELF']); // Redirect to avoid resubmission
+    exit();
 }
 
-// SQL query to fetch all data from the table
-$sql_select = "SELECT tank_id, location, water_level, reading_time FROM water_level";
-$result = $conn->query($sql_select);
+// Fetch data from the water_level table
+$sql = "SELECT * FROM water_level";
+$result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    // Output data of each row
-    echo "<table>";
-    echo "<tr><th>Tank ID</th><th>Location</th><th>Water Level</th><th>Reading Time</th><th>Actions</th></tr>";
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . $row["tank_id"] . "</td>";
-        echo "<td>" . $row["location"] . "</td>";
-        echo "<td>" . $row["water_level"] . "</td>";
-        echo "<td>" . $row["reading_time"] . "</td>";
-        echo "<td>";
-        echo '<a href="?action=delete&id=' . $row["tank_id"] . '" class="btn btn-delete">Delete</a>';
-        echo ' <a href="#" onclick="showUpdateForm(' . $row["tank_id"] . ', \'' . $row["location"] . '\', ' . $row["water_level"] . ', \'' . $row["reading_time"] . '\')" class="btn btn-update">Update</a>';
-        echo "</td>";
-        echo "</tr>";
-    }
-    echo "</table>";
-} else {
-    echo "0 results";
-}
-
-// Close connection
-$conn->close();
-
+// Start HTML output
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Level Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .btn-danger {
+            background-color: #DC3545;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>All Data Available in All Tanks</h1>
+    <h2>Monitor and Manage Your Water Tanks Efficiently</h2>
 
-<!-- Update Form -->
-<div id="updateForm" style="display:none;">
-    <h3>Update Record</h3>
-    <form method="post">
-        <input type="hidden" id="update_id" name="id" value="">
-        <label for="update_location">Location:</label><br>
-        <input type="text" id="update_location" name="location" required><br>
-        <label for="update_water_level">Water Level:</label><br>
-        <input type="number" id="update_water_level" name="water_level" required><br>
-        <label for="update_reading_time">Reading Time:</label><br>
-        <input type="datetime-local" id="update_reading_time" name="reading_time" required><br><br>
-        <input type="submit" name="update" value="Update">
-        <button type="button" onclick="hideUpdateForm()">Cancel</button>
-    </form>
-</div>
+        <a href="home2.html" class="btn btn-secondary">Back to Home</a>
 
-<script>
-    function showUpdateForm(id, location, waterLevel, readingTime) {
-        document.getElementById('update_id').value = id;
-        document.getElementById('update_location').value = location;
-        document.getElementById('update_water_level').value = waterLevel;
-        document.getElementById('update_reading_time').value = readingTime.replace(' ', 'T');
-        document.getElementById('updateForm').style.display = 'block';
-    }
+        <!-- Update Form -->
+        <?php if (isset($_GET['edit_id'])): ?>
+            <?php
+            $edit_id = intval($_GET['edit_id']);
+            $stmt = $conn->prepare("SELECT * FROM water_level WHERE id = ?");
+            $stmt->bind_param("i", $edit_id);
+            $stmt->execute();
+            $result_edit = $stmt->get_result();
+            $row_edit = $result_edit->fetch_assoc();
+            $stmt->close();
+            ?>
+            <h2>Update Record</h2>
+            <form method="post">
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($row_edit['id']); ?>">
+                <div class="form-group">
+                    <label for="tank_id">Tank ID:</label>
+                    <input type="text" name="tank_id" id="tank_id" value="<?php echo htmlspecialchars($row_edit['tank_id']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" name="location" id="location" value="<?php echo htmlspecialchars($row_edit['location']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="water_level">Water Level:</label>
+                    <input type="number" name="water_level" id="water_level" value="<?php echo htmlspecialchars($row_edit['water_level']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="reading_time">Reading Time:</label>
+                    <input type="datetime-local" name="reading_time" id="reading_time" value="<?php echo htmlspecialchars(date('Y-m-d\TH:i', strtotime($row_edit['reading_time']))); ?>" required>
+                </div>
+                <button type="submit" name="update" class="btn">Update Record</button>
+            </form>
+        <?php endif; ?>
 
-    function hideUpdateForm() {
-        document.getElementById('updateForm').style.display = 'none';
-    }
-</script>
+        <!-- Display Data -->
+        <?php if ($result->num_rows > 0): ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tank ID</th>
+                        <th>Location</th>
+                        <th>Water Level</th>
+                        <th>Reading Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['tank_id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['location']); ?></td>
+                            <td><?php echo htmlspecialchars($row['water_level']); ?></td>
+                            <td><?php echo htmlspecialchars($row['reading_time']); ?></td>
+                            <td>
+                                <a href="?edit_id=<?php echo $row['id']; ?>" class="btn">Edit</a>
+                                <a href="?delete_id=<?php echo $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p>No data found.</p>
+        <?php endif; ?>
 
+        <?php $conn->close(); ?>
+    </div>
 </body>
 </html>

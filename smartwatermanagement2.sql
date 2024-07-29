@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2024 at 08:16 PM
+-- Generation Time: Jul 25, 2024 at 01:40 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -24,251 +24,112 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `alerts`
+-- Table structure for table `password_resets`
 --
 
-CREATE TABLE `alerts` (
-  `alert_id` int(11) NOT NULL,
-  `tank_id` int(11) NOT NULL,
-  `alert_time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `alert_type` varchar(100) NOT NULL,
-  `status` varchar(50) NOT NULL
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `expiry` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `alerts`
+-- Dumping data for table `password_resets`
 --
 
-INSERT INTO `alerts` (`alert_id`, `tank_id`, `alert_time`, `alert_type`, `status`) VALUES
-(1, 3, '2024-06-27 17:13:43', 'Low Level Alert', 'Active'),
-(2, 7, '2024-06-27 17:04:43', 'Critical Alert', 'Cleared'),
-(3, 5, '2024-06-27 17:14:43', 'Low Level Alert', 'Active'),
-(4, 9, '2024-06-27 17:33:43', 'Critical Alert', 'Cleared'),
-(5, 6, '2024-06-27 17:32:43', 'High Level Alert', 'Cleared'),
-(6, 4, '2024-06-27 17:29:43', 'Critical Alert', 'Cleared'),
-(7, 2, '2024-06-27 17:20:43', 'Low Level Alert', 'Cleared'),
-(8, 1, '2024-06-27 17:23:43', 'Critical Alert', 'Cleared'),
-(9, 8, '2024-06-27 17:06:43', 'Critical Alert', 'Cleared');
+INSERT INTO `password_resets` (`id`, `email`, `token`, `expiry`) VALUES
+(1, 'bugiruwendaj@gmail.com', 'f91fae363a120c4565517f7a79a8bc11c1343167768741191cdaee599160025f2611086466e5ec674cb43f03018dbb1cd4ec', '2024-07-24 13:40:08'),
+(2, 'bugiruwendaj@gmail.com', '526bf85568ad173a51890a4d1871cbd9c9e4b7f9e0bf8e003d2b3985fbc0f6c4da71006970e1398da0edb8ed11dc1c6fce50', '2024-07-24 14:15:40'),
+(3, 'bugiruwendaj@gmail.com', 'd9872762910f4c8f4145ae18e0029c259f019523805da33ccf1dda6e74d083410e6f705f875126478a0847d263c7fced8182', '2024-07-24 14:51:59'),
+(4, 'bugiruwendaj@gmail.com', '1de1348f1c4fd31f3a8b61c1c6824ea6f011af69f0c28524766729792debb53f55130bfca27e9ac5e5f02aaf7974fb194070', '2024-07-24 15:10:32'),
+(5, 'bugiruwendaj@gmail.com', 'fa9853d4221b595af1dfa09a24fd1212d64e017981b36a73e362f0b4e76f69fc524f665752b9b6f9ab3f42b6ef11f230a343', '2024-07-24 15:35:57'),
+(6, 'bugiruwendaj@gmail.com', '19eb433197236936e4c472de6b193eb871c0978d191eee9bd09abffa35cde20ef22334130cf8e6812a28719d14a9356e8199', '2024-07-24 15:45:10');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sensors`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `sensors` (
-  `sensor_id` int(11) NOT NULL,
-  `tank_id` int(11) NOT NULL,
-  `sensor_type` varchar(50) NOT NULL,
-  `install_date` date NOT NULL,
-  `status` varchar(50) NOT NULL
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `phone_number` varchar(20) NOT NULL,
+  `reset_token` varchar(255) DEFAULT NULL,
+  `reset_expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `sensors`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `sensors` (`sensor_id`, `tank_id`, `sensor_type`, `install_date`, `status`) VALUES
-(1, 3, 'ultrasonic', '2024-06-04', 'FULL'),
-(2, 1, 'ultrasonic', '2024-06-04', 'not full'),
-(3, 8, 'Temperature', '2024-06-08', 'Active'),
-(4, 5, 'Temperature', '2024-06-09', 'Active'),
-(5, 1, 'Temperature', '2024-04-20', 'Inactive'),
-(6, 6, 'Pressure', '2023-07-19', 'Active'),
-(7, 9, 'Flow', '2024-06-22', 'Inactive'),
-(8, 2, 'Pressure', '2024-03-05', 'Inactive'),
-(9, 3, 'Pressure', '2024-06-18', 'Active'),
-(10, 7, 'Flow', '2024-05-02', 'Inactive'),
-(11, 4, 'Flow', '2023-08-28', 'Inactive');
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `phone_number`, `reset_token`, `reset_expires_at`) VALUES
+(1, 'bughi123', 'Bughi@123', 'bugiruwendaj@gmail.com', 'Jean Bosco', 'BUGHI', '0785765091', NULL, NULL),
+(2, '123', '123', 'bugiruwendaj@gmail.com', 'Jean Bosco', 'BUGIRUWENDA', '0785765091', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tanks`
+-- Table structure for table `water_level`
 --
 
-CREATE TABLE `tanks` (
+CREATE TABLE `water_level` (
+  `id` int(20) NOT NULL,
   `tank_id` int(11) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `capacity` int(11) NOT NULL,
-  `install_date` date NOT NULL
+  `location` varchar(250) NOT NULL,
+  `water_level` int(11) NOT NULL,
+  `reading_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tanks`
---
-
-INSERT INTO `tanks` (`tank_id`, `location`, `capacity`, `install_date`) VALUES
-(1, 'kimihurura', 250, '2024-06-04'),
-(2, 'kimironko', 250, '2024-06-27'),
-(3, 'kabuga', 250, '2024-06-27'),
-(4, 'kicukiro', 3000, '2024-06-26'),
-(5, 'Location 1', 661, '2023-10-30'),
-(6, 'Location 2', 329, '2023-10-31'),
-(7, 'Location 3', 301, '2023-12-15'),
-(8, 'Location 4', 768, '2024-04-01'),
-(9, 'Location 5', 889, '2023-10-05');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `usagelogs`
---
-
-CREATE TABLE `usagelogs` (
-  `log_id` int(11) NOT NULL,
-  `tank_id` int(11) NOT NULL,
-  `log_time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `usage_amount` int(11) NOT NULL,
-  `remaining_level` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `usagelogs`
---
-
-INSERT INTO `usagelogs` (`log_id`, `tank_id`, `log_time`, `usage_amount`, `remaining_level`) VALUES
-(1, 8, '2024-06-23 17:34:24', 83, 230),
-(2, 4, '2024-06-22 17:34:24', 13, 211),
-(3, 7, '2024-06-25 17:34:24', 27, 84),
-(4, 1, '2024-06-26 17:34:24', 74, 494),
-(5, 3, '2024-06-26 17:34:24', 62, 206),
-(6, 2, '2024-06-24 17:34:24', 46, 389),
-(7, 5, '2024-06-25 17:34:24', 59, 456),
-(8, 6, '2024-06-26 17:34:24', 48, 471),
-(9, 9, '2024-06-24 17:34:24', 46, 305);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `waterlevels`
---
-
-CREATE TABLE `waterlevels` (
-  `reading_id` int(11) NOT NULL,
-  `sensor_id` int(11) NOT NULL,
-  `reading_time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `water_level` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `waterlevels`
---
-
-INSERT INTO `waterlevels` (`reading_id`, `sensor_id`, `reading_time`, `water_level`) VALUES
-(1, 2, '2024-06-27 17:07:54', 1),
-(2, 2, '2024-06-26 17:08:26', 2),
-(3, 4, '2024-06-24 17:32:33', 75),
-(4, 6, '2024-06-27 17:32:33', 7),
-(5, 8, '2024-06-27 17:32:33', 29),
-(6, 9, '2024-06-24 17:32:33', 45),
-(7, 1, '2024-06-27 17:32:33', 64),
-(8, 10, '2024-06-21 17:32:33', 69),
-(9, 7, '2024-06-22 17:32:33', 21),
-(10, 5, '2024-06-22 17:32:33', 7),
-(11, 11, '2024-06-22 17:32:33', 84),
-(12, 3, '2024-06-26 17:32:33', 66),
-(13, 2, '2024-06-23 17:32:33', 6);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `alerts`
+-- Indexes for table `password_resets`
 --
-ALTER TABLE `alerts`
-  ADD PRIMARY KEY (`alert_id`),
-  ADD KEY `tank_id` (`tank_id`);
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sensors`
+-- Indexes for table `users`
 --
-ALTER TABLE `sensors`
-  ADD PRIMARY KEY (`sensor_id`),
-  ADD KEY `tank_id` (`tank_id`);
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indexes for table `tanks`
+-- Indexes for table `water_level`
 --
-ALTER TABLE `tanks`
-  ADD PRIMARY KEY (`tank_id`);
-
---
--- Indexes for table `usagelogs`
---
-ALTER TABLE `usagelogs`
-  ADD PRIMARY KEY (`log_id`),
-  ADD KEY `tank_id` (`tank_id`);
-
---
--- Indexes for table `waterlevels`
---
-ALTER TABLE `waterlevels`
-  ADD PRIMARY KEY (`reading_id`),
-  ADD KEY `sensor_id` (`sensor_id`);
+ALTER TABLE `water_level`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `alerts`
+-- AUTO_INCREMENT for table `password_resets`
 --
-ALTER TABLE `alerts`
-  MODIFY `alert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+ALTER TABLE `password_resets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `sensors`
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `sensors`
-  MODIFY `sensor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `tanks`
+-- AUTO_INCREMENT for table `water_level`
 --
-ALTER TABLE `tanks`
-  MODIFY `tank_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `usagelogs`
---
-ALTER TABLE `usagelogs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `waterlevels`
---
-ALTER TABLE `waterlevels`
-  MODIFY `reading_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `alerts`
---
-ALTER TABLE `alerts`
-  ADD CONSTRAINT `alerts_ibfk_1` FOREIGN KEY (`tank_id`) REFERENCES `tanks` (`tank_id`);
-
---
--- Constraints for table `sensors`
---
-ALTER TABLE `sensors`
-  ADD CONSTRAINT `sensors_ibfk_1` FOREIGN KEY (`tank_id`) REFERENCES `tanks` (`tank_id`);
-
---
--- Constraints for table `usagelogs`
---
-ALTER TABLE `usagelogs`
-  ADD CONSTRAINT `usagelogs_ibfk_1` FOREIGN KEY (`tank_id`) REFERENCES `tanks` (`tank_id`);
-
---
--- Constraints for table `waterlevels`
---
-ALTER TABLE `waterlevels`
-  ADD CONSTRAINT `waterlevels_ibfk_1` FOREIGN KEY (`sensor_id`) REFERENCES `sensors` (`sensor_id`);
+ALTER TABLE `water_level`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -3,26 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Tank Level Detection</title>
+    <title>Smart Water Tank Level Detection System Using machine Learning</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Your CSS styles */
+    </style>
 </head>
 <body>
     <header>
-        <h1>Water Tank Level Detection</h1>
+        <h1>Smart Water Tank Level Detection System Using machine Learning</h1>
         <nav>
             <ul>
-                <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="tanks.php">Tanks</a></li>
-                <li><a href="display.php">AllData</a></li>
-                <li><a href="show_data_chart.html">summary</a></li>
+                <li class="right"><a href="index.html" id="logoutLink">Logout</a></li>
             </ul>
         </nav>
     </header>
 
+    <div class="container">
+        <div class="card">
+            <h2>Welcome to Smart Water Tank Level Detection System Using machine Learning</h2>
+            <p>Monitor and manage your water tanks efficiently with our advanced detection.</p>
+            <button>Get Started</button>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2024 SmartWaterManagement</p>
+        <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+        </ul>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutLink = document.getElementById('logoutLink');
+            const button = document.querySelector('button');
+
+            button.addEventListener('click', function() {
+                alert('Getting started...');
+                // Add your "get started" logic here
+                // Example: Redirect to a specific page or perform an action
+                window.location.href = 'home2.html'; // Replace with your actual starting action
+            });
+            logoutLink.addEventListener('click', function() {
+                alert('loging out...');
+                // Add your "get started" logic here
+                // Example: Redirect to a specific page or perform an action
+                window.location.href = 'index.html'; // Replace with your actual starting action
+            });
+        });
+    </script>
 </body>
 </html>

@@ -4,17 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Run Python Script</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        #scriptForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            font-size: 16px;
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+        #result {
+            text-align: center;
+        }
+        #result p {
+            font-size: 18px;
+            color: #333;
+        }
+        #plot {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <form id="scriptForm">
-        <button type="submit">show chart</button>
-        <a href="index.html">GoToIndexPage</a>
-    </form>
-
-    <div id="result">
-        <p id="mse"></p>
-        <p id="r2"></p>
-        <img id="plot" alt="Plot will appear here">
+    <div class="container">
+        <h1>now you can view you summarized data graphically in form of chart</h1>
+        <div class="form-container">
+            <form id="scriptForm">
+                <button type="submit">Show Chart</button>
+            </form>
+        </div>
+        <a href="home2.html">Back to Home</a>
+        <div id="result">
+            <p id="mse"></p>
+            <p id="r2"></p>
+            <img id="plot" alt="Plot will appear here">
+        </div>
     </div>
 
     <script>
