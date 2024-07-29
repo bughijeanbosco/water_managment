@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Python Script</title>
+</head>
+<body>
+    <form id="scriptForm">
+        <button type="submit">show chart</button>
+        <a href="index.html">GoToIndexPage</a>
+    </form>
+
+    <div id="result">
+        <p id="mse"></p>
+        <p id="r2"></p>
+        <img id="plot" alt="Plot will appear here">
+    </div>
+
+    <script>
+        document.getElementById('scriptForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            console.log("Form submitted");
+            fetch('http://127.0.0.1:5000/run-script', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log("Response status:", response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log("Response data received:", data);
+                document.getElementById('mse').innerText = 'Mean Squared Error: ' + data.mse;
+                document.getElementById('r2').innerText = 'R^2 Score: ' + data.r2;
+                document.getElementById('plot').src = 'data:image/png;base64,' + data.plot;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

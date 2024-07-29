@@ -1,11 +1,16 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, jsonify
+from flask_cors import CORS
+from model_ok import run_model
 
 app = Flask(__name__)
-app.config.from_object('config.Config')
-db = SQLAlchemy(app)
+CORS(app)
 
-from routes import *
+@app.route('/run-script', methods=['POST'])
+def run_script():
+    print("Request received")
+    result = run_model()
+    print("Result:", result)
+    return jsonify(result)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=5000, debug=True)
